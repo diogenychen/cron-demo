@@ -23,6 +23,20 @@ public class JobUtils {
     }
 
     /**
+     * 添加定时任务
+     */
+    public static Date addJob(JobDetail jobDetail, Trigger trigger){
+        try {
+            Date date = scheduler.scheduleJob(jobDetail, trigger);
+            LOG.info("JobUtils addJob, jobName={}, date={}", jobDetail.getKey().getName(), date);
+            return date;
+        } catch (SchedulerException e) {
+            LOG.error("JobUtils addJob failed, jobName={}, e={}", jobDetail.getKey().getName(), e);
+        }
+        return null;
+    }
+
+    /**
      * 开始任务
      */
     public static void jobStart(){
@@ -58,19 +72,7 @@ public class JobUtils {
         }
     }
 
-    /**
-     * 添加定时任务
-     */
-    public static Date addJob(JobDetail jobDetail, Trigger trigger){
-        try {
-            Date date = scheduler.scheduleJob(jobDetail, trigger);
-            LOG.info("JobUtils addJob, jobName={}, date={}", jobDetail.getKey().getName(), date);
-            return date;
-        } catch (SchedulerException e) {
-            LOG.error("JobUtils addJob failed, jobName={}, e={}", jobDetail.getKey().getName(), e);
-        }
-        return null;
-    }
+
 
 
 }
